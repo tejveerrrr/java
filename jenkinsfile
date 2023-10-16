@@ -9,7 +9,17 @@ pipeline {
         stage("Fetching") {
             steps {
                 git branch: "master", 
-                url: "https://github.com/Rishav518/java"
+                url: "https://github.com/Gauravkumar1502/DevOpsPractical"
+            }
+        }
+        stage("Validate") {
+            steps {
+                bat 'mvn validate'
+            }
+        }
+        stage("clean") {
+            steps {
+                bat 'mvn clean'
             }
         }
         stage("Compile") {
@@ -19,7 +29,7 @@ pipeline {
         }
         stage("Test"){
             steps{
-                bat 'mvn test-compile'
+                bat 'mvn test'
             }
         }
         stage("Package"){
@@ -35,6 +45,11 @@ pipeline {
         stage("Install"){
             steps{
                 bat 'mvn install'
+            }
+        }
+        stage("executing generate jar") {
+            steps {
+                sg 'java -jar ./target/Sum.jar 10 25 30 55 67 89'
             }
         }
     }
